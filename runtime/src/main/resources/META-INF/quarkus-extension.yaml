@@ -1,0 +1,13 @@
+name: Mongodb Junit5
+#description: Do something useful.
+metadata:
+  keywords:
+    - mongodb-junit5
+    - testing
+    - junit
+    - junit5
+  categories:
+    - "mongodb"
+    - "unit"
+    - "test"
+  status: "preview"

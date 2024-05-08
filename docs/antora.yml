@@ -1,0 +1,5 @@
+name: quarkus-mongodb-junit5
+title: Mongodb Junit5
+version: dev
+nav:
+  - modules/ROOT/nav.adoc
