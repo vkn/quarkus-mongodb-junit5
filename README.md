@@ -1,11 +1,45 @@
-# Quarkus Mongodb Junit5
+# Quarkus Mongodb Junit5 Extension
+
+The extension allows to verify number of executed queries to [mongo db](https://www.mongodb.com/) during 
+a [quarkus](https://quarkus.io/) test execution 
 
 
-You can find the basic info, Quarkiverse policies and conventions in [the Quarkiverse wiki](https://github.com/quarkiverse/quarkiverse/wiki).
+
+## Installation
+
+Clone the repository and run `mvn install`, then add the dependency in your pom.xml
+
+```xml
+    <dependency>
+    <groupId>io.github.vkn</groupId>
+    <artifactId>quarkus-mongodb-junit5</artifactId>
+    <version>999-SNAPSHOT</version>
+    <scope>test</scope>
+</dependency>
+```
 
 
-## Documentation
+### Usage
+To get started, annotate your test method with `@MongoDbQueryTest`. See `BookResourceTest` in integration-tests module
+and java docs of `@MongoDbQueryTest` for more information
 
-The documentation for this extension should be maintained as part of this repository and it is stored in the `docs/` directory.
 
-The layout should follow the [Antora's Standard File and Directory Set](https://docs.antora.org/antora/2.3/standard-directories/).
+```java
+@Test
+@MongoDbQueryTest(exactly = 1, collection = "my-collection")
+public void exactly() {
+    given()
+            .when().get("/books")
+            .then()
+            .statusCode(200)
+            .body(not(empty()));
+}
+```
+
+### Contributing
+Contributions are welcome! If you have suggestions for improvements or encounter any issues,
+please feel free to open an issue or submit a pull request.
+
+### License
+This project is licensed under the Apache Licence 2.0. See the LICENSE file for more details.
+
