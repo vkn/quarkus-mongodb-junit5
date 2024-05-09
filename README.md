@@ -13,7 +13,7 @@ Clone the repository and run `mvn install`, then add the dependency in your pom.
 <dependency>
     <groupId>io.github.vkn</groupId>
     <artifactId>quarkus-mongodb-junit5</artifactId>
-    <version>999-SNAPSHOT</version>
+    <version>0.0.1</version>
     <scope>test</scope>
 </dependency>
 ```
