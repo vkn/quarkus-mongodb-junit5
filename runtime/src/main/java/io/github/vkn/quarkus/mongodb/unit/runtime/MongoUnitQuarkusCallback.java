@@ -9,6 +9,11 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
+/**
+ * Implementation for quarkus test callbacks
+ * Retrieves MongoDbUnitCommandListener from CDI container
+ * and uses it to get executed mongodb commands
+ */
 public class MongoUnitQuarkusCallback implements QuarkusTestBeforeTestExecutionCallback, QuarkusTestAfterTestExecutionCallback {
 
     MongoDbUnitCommandListener mongoDbUnitCommandListener;

@@ -10,6 +10,9 @@ import com.mongodb.event.CommandListener;
 import com.mongodb.event.CommandStartedEvent;
 import com.mongodb.event.CommandSucceededEvent;
 
+/**
+ * The listener is storing started mongodb commands
+ */
 public class MongoDbUnitCommandListener implements CommandListener {
     private static final Logger LOGGER = Logger.getLogger(MongoDbUnitCommandListener.class.getName());
     private static final String KEY = "mongodb.command";
