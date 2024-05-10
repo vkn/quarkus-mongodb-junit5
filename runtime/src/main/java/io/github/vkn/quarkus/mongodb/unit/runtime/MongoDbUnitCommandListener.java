@@ -22,7 +22,7 @@ public class MongoDbUnitCommandListener implements CommandListener {
     }
 
     public MongoDbUnitCommandListener() {
-        LOGGER.log(Level.INFO, "MongoTracingCommandListener created");
+        LOGGER.log(Level.FINE, "MongoTracingCommandListener created");
     }
 
     void start() {
@@ -41,7 +41,7 @@ public class MongoDbUnitCommandListener implements CommandListener {
 
     @Override
     public void commandStarted(CommandStartedEvent event) {
-        LOGGER.log(Level.INFO, "commandStarted event {0}", event.getCommand());
+        LOGGER.log(Level.FINE, "commandStarted event {0}", event.getCommand());
         var commandName = event.getCommandName();
         commands.add(new MongoCommand(
                 event.getDatabaseName(),
