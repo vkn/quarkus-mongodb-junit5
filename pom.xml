@@ -197,6 +197,9 @@
                         <artifactId>jreleaser-maven-plugin</artifactId>
                         <configuration>
                             <jreleaser>
+                                <project>
+                                    <copyright>The Apache Software License, Version 2.0</copyright>
+                                </project>
                                 <signing>
                                     <active>ALWAYS</active>
                                     <armored>true</armored>
