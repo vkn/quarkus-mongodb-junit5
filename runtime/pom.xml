@@ -6,6 +6,7 @@
         <groupId>io.github.vkn</groupId>
         <artifactId>quarkus-mongodb-junit5-parent</artifactId>
         <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>quarkus-mongodb-junit5</artifactId>
     <name>Quarkus Mongodb Junit5 - Runtime</name>

@@ -6,39 +6,16 @@
         <groupId>io.github.vkn</groupId>
         <artifactId>quarkus-mongodb-junit5-parent</artifactId>
         <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>quarkus-mongodb-junit5-deployment</artifactId>
     <name>Quarkus Mongodb Junit5 - Deployment</name>
 
     <dependencies>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-core-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-mongodb-client-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-vertx-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-mutiny-reactive-streams-operators-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-smallrye-health-spi</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.vkn</groupId>
             <artifactId>quarkus-mongodb-junit5</artifactId>
-            <version>0.0.1</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -46,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5-internal</artifactId>
+            <artifactId>quarkus-mongodb-client-deployment</artifactId>
         </dependency>
     </dependencies>
 
