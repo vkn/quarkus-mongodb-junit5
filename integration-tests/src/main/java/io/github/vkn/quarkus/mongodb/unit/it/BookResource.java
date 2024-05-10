@@ -23,6 +23,9 @@ import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
+/**
+ * The resource is based on example from quarkus integration tests repository
+ */
 @Path("/books")
 @Blocking
 @Produces(MediaType.APPLICATION_JSON)

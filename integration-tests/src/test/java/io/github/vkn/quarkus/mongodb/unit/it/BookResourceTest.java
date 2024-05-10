@@ -10,6 +10,9 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
+/**
+ * The test is based on example from quarkus integration tests repository
+ */
 @QuarkusTest
 class BookResourceTest {
 

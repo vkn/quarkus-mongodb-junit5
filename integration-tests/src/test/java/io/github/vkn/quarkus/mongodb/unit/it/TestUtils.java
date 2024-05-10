@@ -11,6 +11,9 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+/**
+ * The code is based on example from quarkus integration tests repository
+ */
 class TestUtils {
     private static final TypeRef<List<Book>> bookListType = new TypeRef<>() {
     };
@@ -18,15 +21,15 @@ class TestUtils {
     static void insertBooks(String endpoint) {
         deleteBooks(endpoint);
 
-        Assertions.assertThat(get(endpoint).as(bookListType)).isEmpty();
+        assertThat(get(endpoint).as(bookListType)).isEmpty();
         saveBook(new Book("Victor Hugo", "Les Misérables"), endpoint);
         saveBook(new Book("Victor Hugo", "Notre-Dame de Paris"), endpoint);
         saveBook(new Book("Charles Baudelaire", "Les fleurs du mal"), endpoint);
         await().atMost(Duration.ofSeconds(60L))
-                .untilAsserted(() -> Assertions.assertThat(get(endpoint).as(bookListType)).hasSize(3));
+                .untilAsserted(() -> assertThat(get(endpoint).as(bookListType)).hasSize(3));
         List<Book> books = get("%s/Victor Hugo".formatted(endpoint))
                 .as(bookListType);
-        Assertions.assertThat(books).hasSize(2);
+        assertThat(books).hasSize(2);
     }
 
     static void deleteBooks(String endpoint) {

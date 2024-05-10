@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 @QuarkusTest
-class RactiveBookResourceTest {
+class ReactiveBookResourceTest {
 
 
     @BeforeEach

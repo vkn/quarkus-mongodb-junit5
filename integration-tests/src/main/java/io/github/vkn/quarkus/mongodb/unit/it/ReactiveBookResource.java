@@ -19,6 +19,9 @@ import java.util.concurrent.CompletionStage;
 
 import static com.mongodb.client.model.Filters.eq;
 
+/**
+ * The resource is based on example from quarkus integration tests repository
+ */
 @Path("/reactive-books")
 public class ReactiveBookResource {
 
