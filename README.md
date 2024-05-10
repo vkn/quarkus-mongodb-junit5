@@ -7,13 +7,13 @@ a [quarkus](https://quarkus.io/) test execution
 
 ## Installation
 
-Clone the repository and run `mvn install`, then add the dependency in your pom.xml
+Add the dependency in your pom.xml
 
 ```xml
 <dependency>
     <groupId>io.github.vkn</groupId>
     <artifactId>quarkus-mongodb-junit5</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <scope>test</scope>
 </dependency>
 ```

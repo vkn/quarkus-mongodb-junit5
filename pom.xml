@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.vkn</groupId>
     <artifactId>quarkus-mongodb-junit5-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
     <name>Quarkus Mongodb Junit5 - Parent</name>
     <description>Quarkus MongoDb Junit-5 Extension to verify Db queries in tests</description>
