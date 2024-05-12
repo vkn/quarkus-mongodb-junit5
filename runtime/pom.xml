@@ -5,12 +5,13 @@
     <parent>
         <groupId>io.github.vkn</groupId>
         <artifactId>quarkus-mongodb-junit5-parent</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>quarkus-mongodb-junit5</artifactId>
     <name>Quarkus Mongodb Junit5 - Runtime</name>
-
+    <description>Quarkus MongoDb Junit-5 Extension to verify Db queries in tests</description>
+    <url>https://github.com/vkn/quarkus-mongodb-junit5</url>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -55,4 +56,45 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <performRelease>true</performRelease>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jreleaser</groupId>
+                        <artifactId>jreleaser-maven-plugin</artifactId>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <jreleaser>
+                                <project>
+                                    <copyright>The Apache Software License, Version 2.0</copyright>
+                                </project>
+                                <signing>
+                                    <active>ALWAYS</active>
+                                    <armored>true</armored>
+                                </signing>
+                                <deploy>
+                                    <maven>
+                                        <mavenCentral>
+                                            <sonatype>
+                                                <active>ALWAYS</active>
+                                                <url>https://central.sonatype.com/api/v1/publisher</url>
+                                                <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                                <retryDelay>60</retryDelay>
+                                                <maxRetries>60</maxRetries>
+                                            </sonatype>
+                                        </mavenCentral>
+                                    </maven>
+                                </deploy>
+                            </jreleaser>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
