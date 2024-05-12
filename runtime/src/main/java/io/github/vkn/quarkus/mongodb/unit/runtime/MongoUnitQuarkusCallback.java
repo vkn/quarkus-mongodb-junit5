@@ -35,10 +35,12 @@ public class MongoUnitQuarkusCallback implements QuarkusTestBeforeTestExecutionC
         MongoDbUnitCommandListener listener = STORE.remove(context.getTestMethod().getName());
         String db = getAnnotation(context).map(MongoDbQueryTest::db).orElse(null);
         String collection = getAnnotation(context).map(MongoDbQueryTest::collection).orElse(null);
+        String commandName = getAnnotation(context).map(MongoDbQueryTest::commandName).orElse(null);
         long commandCount = listener.getCommands()
                 .stream()
                 .filter(mc -> db == null || db.isBlank() || db.equals(mc.db()))
                 .filter(mc -> collection == null || collection.isBlank() || collection.equals(mc.collection()))
+                .filter(mc -> commandName == null || commandName.isBlank() || commandName.equals(mc.name()))
                 .count();
         listener.stop();
         int atLeast = getAnnotation(context).map(MongoDbQueryTest::atLeast).orElse(-1);

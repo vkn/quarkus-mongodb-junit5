@@ -28,6 +28,14 @@ public @interface MongoDbQueryTest {
     String db() default "";
 
     /**
+     *  Check only this command name
+     *  e.g. find, delete
+     *
+      * @return
+     */
+    String commandName() default "";
+
+    /**
      *
      * @return exact num of queries to be executed
      */

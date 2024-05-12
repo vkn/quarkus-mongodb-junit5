@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.vkn</groupId>
         <artifactId>quarkus-mongodb-junit5-parent</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </parent>
     <artifactId>quarkus-mongodb-junit5-integration-tests</artifactId>
     <name>Quarkus Mongodb Junit5 - Integration Tests</name>
