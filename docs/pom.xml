@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.vkn</groupId>
         <artifactId>quarkus-mongodb-junit5-parent</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>io.github.vkn</groupId>
             <artifactId>quarkus-mongodb-junit5-deployment</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.5</version>
         </dependency>
     </dependencies>
 
@@ -99,11 +99,6 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jreleaser</groupId>
-                <artifactId>jreleaser-maven-plugin</artifactId>
-                <inherited>false</inherited>
             </plugin>
         </plugins>
     </build>
