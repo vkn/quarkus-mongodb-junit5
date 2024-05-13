@@ -13,7 +13,7 @@ Add the dependency in your pom.xml
 <dependency>
     <groupId>io.github.vkn</groupId>
     <artifactId>quarkus-mongodb-junit5</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -27,6 +27,21 @@ and java docs of `@MongoDbQueryTest` for more information
 ```java
 @Test
 @MongoDbQueryTest(exactly = 1, collection = "my-collection")
+public void exactly() {
+    given()
+            .when().get("/books")
+            .then()
+            .statusCode(200)
+            .body(not(empty()));
+}
+```
+
+Repeated annotations are also supported:
+
+```java
+@Test
+@MongoDbQueryTest(exactly = 1, commandName = "find")
+@MongoDbQueryTest(exactly = 0, commandName = "delete")
 public void exactly() {
     given()
             .when().get("/books")
