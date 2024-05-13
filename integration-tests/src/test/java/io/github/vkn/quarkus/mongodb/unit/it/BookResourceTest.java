@@ -28,7 +28,7 @@ class BookResourceTest {
     }
 
     @Test
-    public void notApplied() {
+    void notApplied() {
         given()
                 .when().get("/books")
                 .then()
@@ -38,7 +38,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest
-    public void defaults() {
+    void defaults() {
         given()
                 .when().get("/books")
                 .then()
@@ -48,7 +48,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(collection = "my-collection")
-    public void collectionOnly() {
+    void collectionOnly() {
         given()
                 .when().get("/books")
                 .then()
@@ -58,7 +58,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(exactly = 1, collection = "my-collection")
-    public void exactly() {
+    void exactly() {
         given()
                 .when().get("/books")
                 .then()
@@ -68,7 +68,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(exactly = 1, commandName = "find")
-    public void exactlyCommand() {
+    void exactlyCommand() {
         given()
                 .when().get("/books")
                 .then()
@@ -78,7 +78,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(exactly = 0, commandName = "delete")
-    public void exactlyCommandZero() {
+    void exactlyCommandZero() {
         given()
                 .when().get("/books")
                 .then()
@@ -88,19 +88,34 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(exactly = 1, commandName = "delete")
-    public void exactlyCommandDeleteONe() {
+    void exactlyCommandDeleteONe() {
         TestUtils.deleteBooks("/books");
     }
 
     @Test
     @MongoDbQueryTest(exactly = 0, commandName = "find")
-    public void deleteNotFind() {
+    void deleteNotFind() {
+        TestUtils.deleteBooks("/books");
+    }
+
+    @Test
+    @MongoDbQueryTest(exactly = 0, commandName = "find")
+    @MongoDbQueryTest(exactly = 1, commandName = "delete")
+    void repeatedAnnotation() {
+        TestUtils.deleteBooks("/books");
+    }
+
+    @Test
+    @MongoDbQueryTest(exactly = 1, commandName = "delete")
+    @MongoDbQueryTest(exactly = 0, commandName = "find")
+    @MongoDbQueryTest(exactly = 1)
+    void repeatedAnnotation2() {
         TestUtils.deleteBooks("/books");
     }
 
     @Test
     @MongoDbQueryTest(commandName = "delete")
-    public void commandOnlySpecified() {
+    void commandOnlySpecified() {
         given()
                 .when().get("/books")
                 .then()
@@ -110,7 +125,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(exactly = 1, collection = "my-collection")
-    public void atMost() {
+    void atMost() {
         given()
                 .when().get("/books")
                 .then()
@@ -120,7 +135,7 @@ class BookResourceTest {
 
     @Test
     @MongoDbQueryTest(atLeast = 1, collection = "my-collection")
-    public void atLeast() {
+    void atLeast() {
         given()
                 .when().get("/books")
                 .then()

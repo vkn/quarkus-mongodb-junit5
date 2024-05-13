@@ -5,9 +5,11 @@ import io.quarkus.test.junit.callback.QuarkusTestBeforeTestExecutionCallback;
 import io.quarkus.test.junit.callback.QuarkusTestMethodContext;
 import jakarta.enterprise.inject.spi.CDI;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Implementation for quarkus test callbacks
@@ -19,8 +21,11 @@ public class MongoUnitQuarkusCallback implements QuarkusTestBeforeTestExecutionC
     MongoDbUnitCommandListener mongoDbUnitCommandListener;
     private static final ConcurrentHashMap<String, MongoDbUnitCommandListener> STORE = new ConcurrentHashMap<>();
 
-    private static Optional<MongoDbQueryTest> getAnnotation(QuarkusTestMethodContext context) {
-        return Optional.ofNullable(context.getTestMethod().getAnnotation(MongoDbQueryTest.class));
+    private static List<MongoDbQueryTest> getAnnotations(QuarkusTestMethodContext context) {
+        return Optional.ofNullable(context.getTestMethod()
+                .getAnnotationsByType(MongoDbQueryTest.class))
+                .map(a -> Stream.of(a).toList())
+                .orElse(List.of());
     }
 
     @Override
@@ -33,19 +38,27 @@ public class MongoUnitQuarkusCallback implements QuarkusTestBeforeTestExecutionC
     @Override
     public void afterTestExecution(QuarkusTestMethodContext context) {
         MongoDbUnitCommandListener listener = STORE.remove(context.getTestMethod().getName());
-        String db = getAnnotation(context).map(MongoDbQueryTest::db).orElse(null);
-        String collection = getAnnotation(context).map(MongoDbQueryTest::collection).orElse(null);
-        String commandName = getAnnotation(context).map(MongoDbQueryTest::commandName).orElse(null);
-        long commandCount = listener.getCommands()
-                .stream()
-                .filter(mc -> db == null || db.isBlank() || db.equals(mc.db()))
-                .filter(mc -> collection == null || collection.isBlank() || collection.equals(mc.collection()))
-                .filter(mc -> commandName == null || commandName.isBlank() || commandName.equals(mc.name()))
-                .count();
+        for (MongoDbQueryTest annotation : getAnnotations(context)) {
+            String db = annotation.db();
+            var collection = annotation.collection();
+            var commandName = annotation.commandName();
+            long commandCount = listener.getCommands()
+                    .stream()
+                    .filter(mc -> db == null || db.isBlank() || db.equals(mc.db()))
+                    .filter(mc -> collection == null || collection.isBlank() || collection.equals(mc.collection()))
+                    .filter(mc -> commandName == null || commandName.isBlank() || commandName.equals(mc.name()))
+                    .count();
+            assertCounts(annotation, commandCount);
+        }
+
         listener.stop();
-        int atLeast = getAnnotation(context).map(MongoDbQueryTest::atLeast).orElse(-1);
-        int atMost = getAnnotation(context).map(MongoDbQueryTest::atMost).orElse(-1);
-        long exactly = Long.valueOf(getAnnotation(context).map(MongoDbQueryTest::exactly).orElse(-1));
+
+    }
+
+    private static void assertCounts(MongoDbQueryTest annotation, long commandCount) {
+        int atLeast = annotation.atLeast();
+        int atMost = annotation.atMost();
+        long exactly = annotation.exactly();
         assertCounts(atLeast, cnt -> cnt < atLeast, "at least", commandCount);
         assertCounts(atMost, cnt -> cnt > atMost, "at most", commandCount);
         assertCounts(exactly, cnt -> cnt != exactly, "exactly", commandCount);
