@@ -30,44 +30,47 @@ public class MongoUnitQuarkusCallback implements QuarkusTestBeforeTestExecutionC
 
     @Override
     public void beforeTestExecution(QuarkusTestMethodContext context) {
-        mongoDbUnitCommandListener = CDI.current().select(MongoDbUnitCommandListener.class).get();
+        mongoDbUnitCommandListener = getListener();
         mongoDbUnitCommandListener.start();
         STORE.put(context.getTestMethod().getName(), mongoDbUnitCommandListener);
+    }
+
+    MongoDbUnitCommandListener getListener() {
+        return CDI.current().select(MongoDbUnitCommandListener.class).get();
     }
 
     @Override
     public void afterTestExecution(QuarkusTestMethodContext context) {
         MongoDbUnitCommandListener listener = STORE.remove(context.getTestMethod().getName());
         for (MongoDbQueryTest annotation : getAnnotations(context)) {
-            String db = annotation.db();
-            var collection = annotation.collection();
-            var commandName = annotation.commandName();
+            var cfg = new Config(annotation);
             long commandCount = listener.getCommands()
                     .stream()
-                    .filter(mc -> db == null || db.isBlank() || db.equals(mc.db()))
-                    .filter(mc -> collection == null || collection.isBlank() || collection.equals(mc.collection()))
-                    .filter(mc -> commandName == null || commandName.isBlank() || commandName.equals(mc.name()))
+                    .filter(cfg::matchesDb)
+                    .filter(cfg::matchesCollection)
+                    .filter(cfg::matchesName)
                     .count();
-            assertCounts(annotation, commandCount);
+            assertCounts(annotation, commandCount, cfg);
         }
 
         listener.stop();
 
     }
 
-    private static void assertCounts(MongoDbQueryTest annotation, long commandCount) {
+    private static void assertCounts(MongoDbQueryTest annotation, long commandCount, Config cfg) {
         int atLeast = annotation.atLeast();
         int atMost = annotation.atMost();
         long exactly = annotation.exactly();
-        assertCounts(atLeast, cnt -> cnt < atLeast, "at least", commandCount);
-        assertCounts(atMost, cnt -> cnt > atMost, "at most", commandCount);
-        assertCounts(exactly, cnt -> cnt != exactly, "exactly", commandCount);
+        assertCounts(atLeast, cnt -> cnt < atLeast, "at least", commandCount, cfg);
+        assertCounts(atMost, cnt -> cnt > atMost, "at most", commandCount, cfg);
+        assertCounts(exactly, cnt -> cnt != exactly, "exactly", commandCount, cfg);
     }
 
-    private static void assertCounts(Number expected, Predicate<? super Long> isViolated, String errorType, long commandCount) {
+    private static void assertCounts(Number expected, Predicate<? super Long> isViolated, String errorType, long commandCount, Config cfg) {
         if (expected != null && expected.intValue() > -1 && isViolated.test(commandCount)) {
-            throw new AssertionError("Mongodb extension requires %s %d commands, but count is %d".formatted(errorType,
-                    expected.longValue(), commandCount));
+            String constrains = cfg.constrains().isEmpty() ? "" : " for " + cfg.constrains();
+            throw new AssertionError("Mongodb extension requires %s %d commands%s, but count is %d".formatted(errorType,
+                    expected.longValue(), constrains, commandCount));
         }
     }
 }
