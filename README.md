@@ -13,7 +13,7 @@ Add the dependency in your pom.xml
 <dependency>
     <groupId>io.github.vkn</groupId>
     <artifactId>quarkus-mongodb-junit5</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <scope>test</scope>
 </dependency>
 ```
