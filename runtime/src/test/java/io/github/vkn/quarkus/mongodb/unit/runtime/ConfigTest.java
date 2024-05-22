@@ -24,10 +24,24 @@ class ConfigTest {
     }
 
     @Test
+    void notMatchesCollection() {
+        var config = new Config(annotation(Map.of("collection", "foo")));
+        var command = new MongoCommand("userDb", "books", null, null);
+        assertThat(config.matchesCollection(command)).isFalse();
+    }
+
+    @Test
     void matchesName() {
         var config = new Config(annotation(Map.of("commandName", "delete")));
         var command = new MongoCommand("userDb", "books", "delete", null);
         assertThat(config.matchesName(command)).isTrue();
+    }
+
+    @Test
+    void notMatchesName() {
+        var config = new Config(annotation(Map.of("commandName", "update")));
+        var command = new MongoCommand("userDb", "books", "delete", null);
+        assertThat(config.matchesName(command)).isFalse();
     }
 
     @Test

@@ -37,7 +37,7 @@ class MongoUnitQuarkusCallbackTest {
         callback.beforeTestExecution(context);
         assertThatThrownBy(() -> callback.afterTestExecution(context))
                 .isInstanceOf(AssertionError.class)
-                .hasMessageContaining("Mongodb extension requires exactly 1 commands, but count is 0");
+                .hasMessageContaining("Mongodb extension requires exactly 1 command, but count is 0");
     }
 
     @Test
@@ -67,32 +67,6 @@ class MongoUnitQuarkusCallbackTest {
         var callback = new TestMongoUnitQuarkusCallback();
         callback.beforeTestExecution(context);
         assertThatNoException().isThrownBy(() -> callback.afterTestExecution(context));
-    }
-
-    @SuppressWarnings("JUnitMalformedDeclaration")
-    private static class TestedClass {
-
-        @Test
-        @MongoDbQueryTest(exactly = 1)
-        void someFailingTest() {
-
-        }
-
-        @Test
-        @MongoDbQueryTest(exactly = 0)
-        void someTest() {
-
-        }
-
-        @Test
-        @MongoDbQueryTest(exactly = 0, commandName = "delete")
-        @MongoDbQueryTest(exactly = 0, commandName = "find")
-        void someTestWithRepeatedAnnotation() {
-
-        }
-
-        @Test
-        void noAnnotation() {}
     }
 
     private static class TestMongoUnitQuarkusCallback extends MongoUnitQuarkusCallback {
