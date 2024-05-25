@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.wildfly.common.Assert.assertTrue;
 
 class MongoDbUnitCommandListenerTest {
 
@@ -49,7 +48,7 @@ class MongoDbUnitCommandListenerTest {
         assertThat(listener.getCommands()).hasSize(1);
 
         listener.start();
-        assertTrue(listener.getCommands().isEmpty());
+        assertThat(listener.getCommands()).isEmpty();
     }
 
     @Test
@@ -58,7 +57,7 @@ class MongoDbUnitCommandListenerTest {
         assertThat(listener.getCommands()).hasSize(1);
 
         listener.stop();
-        assertTrue(listener.getCommands().isEmpty());
+        assertThat(listener.getCommands()).isEmpty();
     }
 
     @Test
