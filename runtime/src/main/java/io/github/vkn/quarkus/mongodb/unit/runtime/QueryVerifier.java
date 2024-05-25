@@ -60,9 +60,6 @@ class QueryVerifier {
         String suffix = expected.intValue() == 1 ? "" : "s";
         var msg = "Mongodb extension requires %s %d command%s%s, but count is %d%n%s".formatted(
                 errorType, expected.longValue(), suffix, constrains, commands.size(), commandsAsString(commands));
-        System.out.println();
-        System.out.println(msg);
-        System.out.println();
         throw new AssertionError(msg);
     }
 
